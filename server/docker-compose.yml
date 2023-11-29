@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+  main:
+    container_name: api
+    build:
+      context: .
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    command: npm start
+    restart: always
+
+  mongo:
+    image: mongo:4.4.2
+    environment:
+      - MONGO_INITDB_DATABASE=solid
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./database/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./database/db:/data/db
+    ports:
+      - 27017:27017
+    restart: always
