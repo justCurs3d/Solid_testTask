@@ -17,21 +17,20 @@
         </div>
       </div>
       <div>
-        <el-button class="getBtn" size="large" @click="getData">Получить данные</el-button>
+        <el-button class="getBtn" size="large" @click="btnClick">Получить данные</el-button>
       </div>
     </div>
     <div v-if="quotes && quotes.length">
       <quotes-list-range :quotes="quotes"/>
       <div class="pagination_container">
 
-        <el-select class="limit" v-model="limit" @change="changeLimit($event)">
+        <el-select class="limit" v-model="limit" @change="changeLimit($event);">
           <el-option value="10">10</el-option>
           <el-option value="20">20</el-option>
           <el-option value="50">50</el-option>
           <el-option value="100">100</el-option>
         </el-select>
-
-        <el-pagination layout="prev, pager, next" :total="totalPages*10" v-model="currentPage"  @current-change="changePage" pager-count="4" />
+        <el-pagination layout="prev, pager, next" v-model:current-page="currentPage" :total="totalPages*10"   @current-change="changePage" pager-count="4" />
       </div>
     </div>
 
@@ -64,9 +63,13 @@ export default {
       await this.getData()
     },
 
+    async btnClick() {
+      await this.changePage(1)
+    },
+
     async changeLimit(limit) {
       this.limit = limit
-      await this.getData()
+      await this.changePage(1)
     },
 
     async getTickers() {
