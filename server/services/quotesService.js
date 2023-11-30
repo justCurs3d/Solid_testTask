@@ -1,14 +1,31 @@
 import Quote from "../models/Quote.js";
 
 class quotesService {
-    async getAllInDate (date) {
+    async getAllInDate(date) {
         const quotes = await Quote.find({date})
         return quotes
     }
 
-    async getOneInPeriod (ticker, startDate, endDate, limit, offset) {
-        const quotes = await Quote.find({ticker, date: { $gte: startDate, $lte: endDate }}).limit(limit).skip(offset)
-        return quotes
+    async getOneInPeriod(reqParams) {
+        const filter = {
+            ticker: reqParams.ticker,
+            date: {
+                $gte: reqParams.startDate,
+                $lte: reqParams.endDate
+            }
+        }
+
+        const count = await Quote.countDocuments(filter)
+        let skip = 0
+        if (reqParams.page > 0) {
+            skip = reqParams.limit * (reqParams.page - 1)
+        }
+        const quotes = await Quote.find(filter).limit(reqParams.limit).skip(skip)
+        const result = {
+            count,
+            quotes
+        }
+        return result
     }
 }
 

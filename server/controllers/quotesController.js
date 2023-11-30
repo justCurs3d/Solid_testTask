@@ -17,10 +17,16 @@ class QuotesController {
         try {
             const {ticker} = req.params
             const {startDate, endDate} = req
-            const {limit, offset} = req.query || 0
-
-            const quotes = await quotesService.getOneInPeriod(ticker, startDate, endDate, limit, offset)
-            res.json(quotes)
+            const {limit, page} = req.query || 0
+            const reqParams = {
+                ticker,
+                startDate,
+                endDate,
+                limit,
+                page
+            }
+            const result = await quotesService.getOneInPeriod(reqParams)
+            res.json(result)
         } catch (e) {
             console.log(e)
             res.status(500).json({message: 'Внутренняя ошибка сервера'})
