@@ -7,7 +7,7 @@
       </div>
 
       <div>
-        <el-button size="large" @click="getData">Получить данные</el-button>
+        <el-button class="getBtn" size="large" @click="getData">Получить данные</el-button>
       </div>
     </div>
 
@@ -69,6 +69,11 @@ export default {
 span {
   font-size: 20px;
   margin-right: 20px;
+}
+
+.getBtn {
+  font-size: 18px;
+  margin-top: 20px;
 }
 
 .form {

@@ -1,4 +1,3 @@
-import Ticker from "../models/Ticker.js";
 import tickersService from "../services/tickersService.js";
 
 

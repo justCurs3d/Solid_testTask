@@ -14,12 +14,13 @@ class quotesService {
                 $lte: reqParams.endDate
             }
         }
-
         const count = await Quote.countDocuments(filter)
+
         let skip = 0
-        if (reqParams.page > 0) {
+        if (reqParams.page && reqParams.limit) {
             skip = reqParams.limit * (reqParams.page - 1)
         }
+
         const quotes = await Quote.find(filter).limit(reqParams.limit).skip(skip)
         const result = {
             count,
